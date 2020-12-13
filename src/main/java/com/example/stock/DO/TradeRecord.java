@@ -28,5 +28,5 @@ public class TradeRecord {
 //    private double low_1000;
 //    private double close_1000;
 
-    private int volumnThreshold;
+//    private int volumnThreshold;
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/lb")
+@RequestMapping("/tradelb")
 public class LargeTradeRecordController {
 
     @Autowired

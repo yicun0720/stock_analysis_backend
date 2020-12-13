@@ -17,5 +17,5 @@ public class TradeRecordVO {
     private double low;
     private double close;
 
-    private int volumnThreshold;
+//    private int volumnThreshold;
 }

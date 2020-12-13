@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stock.Mapper.TradeRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.stock.DO.TradeRecord">
+        <result column="ts_code" jdbcType="VARCHAR" property="code" />
+        <result column="date_str" jdbcType="VARCHAR" property="date" />
+        <result column="open" jdbcType="REAL" property="open" />
+        <result column="high" jdbcType="REAL" property="high" />
+        <result column="low" jdbcType="REAL" property="low" />
+        <result column="close" jdbcType="REAL" property="close" />
+    </resultMap>
+
+    <select id="getTradeRecord_5min" parameterType="com.example.stock.DO.KLineRequest" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_5
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_15min" parameterType="com.example.stock.DO.KLineRequest" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_15
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_30min" parameterType="com.example.stock.DO.KLineRequest" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_30
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_60min" parameterType="com.example.stock.DO.KLineRequest" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_60
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_1d" parameterType="com.example.stock.DO.KLineRequest" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_daily
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+</mapper>
