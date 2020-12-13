@@ -16,4 +16,11 @@ public interface LargeTradeRecordService {
      */
     ResponseVO getKLineData_lb(KLineRequestForm_lb kLineRequestForm_lb);
 
+    /**
+     * 获取对比数据
+     * @param kLineRequestForm_lb
+     * @return
+     */
+    ResponseVO getContrastKLineData(KLineRequestForm_lb kLineRequestForm_lb);
+
 }

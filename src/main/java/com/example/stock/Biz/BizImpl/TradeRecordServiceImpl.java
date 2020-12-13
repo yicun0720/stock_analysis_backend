@@ -1,6 +1,7 @@
 package com.example.stock.Biz.BizImpl;
 
 import com.example.stock.Biz.TradeRecordService;
+import com.example.stock.Biz.TradeRecordServiceForBl;
 import com.example.stock.DO.KLineRequest;
 import com.example.stock.DO.TradeRecord;
 import com.example.stock.Form.KLine;
@@ -21,7 +22,7 @@ import java.util.List;
  * @ Date 2020/12/13
  */
 @Service
-public class TradeRecordServiceImpl implements TradeRecordService {
+public class TradeRecordServiceImpl implements TradeRecordService, TradeRecordServiceForBl {
 
     private static final String NO_SUCH_STOCK_CODE_ERR = "股票代码不存在";
     private static final String NO_SUCH_SCHEMA_ERR = "数据表不存在";
@@ -31,6 +32,21 @@ public class TradeRecordServiceImpl implements TradeRecordService {
 
     @Override
     public ResponseVO getKLineData(KLineRequestForm kLineRequestForm){
+        List<TradeRecord> tradeRecordList = kLineDispatcher(kLineRequestForm);
+        if(tradeRecordList == null){
+            return ResponseVO.buildFailure("未知K线类型");
+        }
+
+        List<TradeRecordVO> tradeRecordVOList = new ArrayList<>();
+        for(TradeRecord tradeRecord: tradeRecordList){
+            TradeRecordVO tradeRecordVO = new TradeRecordVO();
+            BeanUtils.copyProperties(tradeRecord, tradeRecordVO);
+            tradeRecordVOList.add(tradeRecordVO);
+        }
+        return ResponseVO.buildSuccess(tradeRecordVOList);
+    }
+
+    private List<TradeRecord> kLineDispatcher(KLineRequestForm kLineRequestForm){
         KLineRequest kLineRequest = new KLineRequest(kLineRequestForm);
         List<TradeRecord> tradeRecordList;
 
@@ -52,15 +68,13 @@ public class TradeRecordServiceImpl implements TradeRecordService {
                 tradeRecordList = tradeRecordMapper.getTradeRecord_1d(kLineRequest);
                 break;
             default:
-                return ResponseVO.buildFailure("未知K线类型");
+                return null;
         }
+        return tradeRecordList;
+    }
 
-        List<TradeRecordVO> tradeRecordVOList = new ArrayList<>();
-        for(TradeRecord tradeRecord: tradeRecordList){
-            TradeRecordVO tradeRecordVO = new TradeRecordVO();
-            BeanUtils.copyProperties(tradeRecord, tradeRecordVO);
-            tradeRecordVOList.add(tradeRecordVO);
-        }
-        return ResponseVO.buildSuccess(tradeRecordVOList);
+    @Override
+    public List<TradeRecord> getKLineDataForContrast(KLineRequestForm kLineRequestForm){
+        return kLineDispatcher(kLineRequestForm);
     }
 }

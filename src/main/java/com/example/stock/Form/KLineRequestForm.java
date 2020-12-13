@@ -18,4 +18,13 @@ public class KLineRequestForm {
      */
     private KLine kLine;
 
+    public KLineRequestForm() {
+    }
+
+    public KLineRequestForm(KLineRequestForm_lb kLineRequestForm_lb){
+        this.code = kLineRequestForm_lb.getCode();
+        this.fromDate = kLineRequestForm_lb.getFromDate();
+        this.toDate = kLineRequestForm_lb.getToDate();
+        this.kLine = kLineRequestForm_lb.getKLine();
+    }
 }

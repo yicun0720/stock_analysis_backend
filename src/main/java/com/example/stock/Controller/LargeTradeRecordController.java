@@ -24,4 +24,9 @@ public class LargeTradeRecordController {
         return largeTradeRecordService.getKLineData_lb(kLineRequestForm_lb);
     }
 
+    @PostMapping("/klineContrast")
+    public ResponseVO getContrastKLineData(@ModelAttribute KLineRequestForm_lb kLineRequestForm_lb){
+        return largeTradeRecordService.getContrastKLineData(kLineRequestForm_lb);
+    }
+
 }
