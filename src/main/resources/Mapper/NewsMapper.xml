@@ -11,6 +11,7 @@
     <select id="getStockNews" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from news_record
         where datetime &gt;= #{fromTime} and datetime &lt;= #{toTime}
+        order by datetime
     </select>
 
 </mapper>
