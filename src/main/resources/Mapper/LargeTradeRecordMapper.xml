@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stock.Mapper.LargeTradeRecordMapper">
+    <resultMap id="BaseResultMap" type="com.example.stock.DO.TradeRecord">
+        <id column="ts_code" jdbcType="VARCHAR" property="code" />
+        <result column="date_str" jdbcType="VARCHAR" property="date" />
+        <result column="open" jdbcType="DOUBLE" property="open" />
+        <result column="high" jdbcType="DOUBLE" property="high" />
+        <result column="low" jdbcType="DOUBLE" property="low" />
+        <result column="close" jdbcType="DOUBLE" property="close" />
+    </resultMap>
+
+    <select id="getTradeRecord_5min" parameterType="com.example.stock.DO.KLineRequest_lb" resultMap="BaseResultMap">
+        select ts_code, date_str,
+        <choose>
+            <when test="volumnThreshold eq 100">
+                open_100 as open, high_100 as high, low_100 as low, close_100 as close
+            </when>
+            <when test="volumnThreshold eq 1000">
+                open_1000 as open, high_1000 as high, low_1000 as low, close_1000 as close
+            </when>
+            <when test="volumnThreshold eq 5000">
+                open_5000 as open, high_5000 as high, low_5000 as low, close_5000 as close
+            </when>
+            <otherwise>
+                open, high, low, close
+            </otherwise>
+        </choose>
+        from trade_record_lb_5
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_15min" parameterType="com.example.stock.DO.KLineRequest_lb" resultMap="BaseResultMap">
+        select ts_code, date_str,
+        <choose>
+            <when test="volumnThreshold eq 100">
+                open_100 as open, high_100 as high, low_100 as low, close_100 as close
+            </when>
+            <when test="volumnThreshold eq 1000">
+                open_1000 as open, high_1000 as high, low_1000 as low, close_1000 as close
+            </when>
+            <when test="volumnThreshold eq 5000">
+                open_5000 as open, high_5000 as high, low_5000 as low, close_5000 as close
+            </when>
+            <otherwise>
+                open, high, low, close
+            </otherwise>
+        </choose>
+        from trade_record_lb_15
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_30min" parameterType="com.example.stock.DO.KLineRequest_lb" resultMap="BaseResultMap">
+        select ts_code, date_str,
+        <choose>
+            <when test="volumnThreshold eq 100">
+                open_100 as open, high_100 as high, low_100 as low, close_100 as close
+            </when>
+            <when test="volumnThreshold eq 1000">
+                open_1000 as open, high_1000 as high, low_1000 as low, close_1000 as close
+            </when>
+            <when test="volumnThreshold eq 5000">
+                open_5000 as open, high_5000 as high, low_5000 as low, close_5000 as close
+            </when>
+            <otherwise>
+                open, high, low, close
+            </otherwise>
+        </choose>
+        from trade_record_lb_30
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_60min" parameterType="com.example.stock.DO.KLineRequest_lb" resultMap="BaseResultMap">
+        select ts_code, date_str,
+        <choose>
+            <when test="volumnThreshold eq 100">
+                open_100 as open, high_100 as high, low_100 as low, close_100 as close
+            </when>
+            <when test="volumnThreshold eq 1000">
+                open_1000 as open, high_1000 as high, low_1000 as low, close_1000 as close
+            </when>
+            <when test="volumnThreshold eq 5000">
+                open_5000 as open, high_5000 as high, low_5000 as low, close_5000 as close
+            </when>
+            <otherwise>
+                open, high, low, close
+            </otherwise>
+        </choose>
+        from trade_record_lb_60
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+    <select id="getTradeRecord_1d" parameterType="com.example.stock.DO.KLineRequest_lb" resultMap="BaseResultMap">
+        select ts_code, date_str,
+        <choose>
+            <when test="volumnThreshold eq 100">
+                open_100 as open, high_100 as high, low_100 as low, close_100 as close
+            </when>
+            <when test="volumnThreshold eq 1000">
+                open_1000 as open, high_1000 as high, low_1000 as low, close_1000 as close
+            </when>
+            <when test="volumnThreshold eq 5000">
+                open_5000 as open, high_5000 as high, low_5000 as low, close_5000 as close
+            </when>
+            <otherwise>
+                open, high, low, close
+            </otherwise>
+        </choose>
+        from trade_record_lb_daily
+        where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
+        order by date_str
+    </select>
+
+</mapper>
