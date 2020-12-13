@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stock.Mapper.StockInfoMapper">
+    <resultMap id="BaseResultMap" type="com.example.stock.DO.Stock">
+        <id column="ts_code" jdbcType="VARCHAR" property="code" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="enname" jdbcType="VARCHAR" property="enname" />
+        <result column="market" jdbcType="VARCHAR" property="market" />
+        <result column="area" jdbcType="VARCHAR" property="area" />
+        <result column="list_date" jdbcType="VARCHAR" property="list_date" />
+    </resultMap>
+
+    <select id="getStockInfoByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from base_information
+        where ts_code = #{code}
+    </select>
+
+</mapper>
