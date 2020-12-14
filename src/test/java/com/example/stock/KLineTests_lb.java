@@ -52,5 +52,17 @@ public class KLineTests_lb {
         }
         return null;
     }
+
+    @Test
+    void testContrast(){
+        KLineRequestForm_lb kLineRequestForm_lb = new KLineRequestForm_lb();
+        kLineRequestForm_lb.setCode("000046.SZ");
+        kLineRequestForm_lb.setFromDate("2020-12-03 00:00:00");
+        kLineRequestForm_lb.setToDate("2020-12-04 00:00:00");
+        kLineRequestForm_lb.setKLine(KLine.K_5MIN);
+        kLineRequestForm_lb.setVolumnThreshold(1000);
+
+        largeTradeRecordService.getContrastKLineData(kLineRequestForm_lb);
+    }
 }
 

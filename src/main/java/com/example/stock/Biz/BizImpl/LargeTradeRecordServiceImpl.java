@@ -88,7 +88,10 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
         }
         //washDate方法，包含一个时间粒度的参数gapMin，将tr_list_lb的date都向下取到最近的正确时间点，并补全中间缺少的时间
         washDate(tr_list_lb, 5);
-
+        System.out.println(tr_list_lb.size());
+        for(TradeRecord tradeRecord:tr_list_lb){
+            System.out.println(tradeRecord.getDate());
+        }
         return null;
     }
 
@@ -138,21 +141,23 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
                 }
             }
         }
-        try {
-            ts = simpleDateFormat.parse(inRecord.get(inRecord.size()-1).getDate()).getTime()+60000*gapMin;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        while(isLegal(ts)){
-            TradeRecord tradeRecord = new TradeRecord();
-            tradeRecord.setCode(inRecord.get(0).getCode());
-            tradeRecord.setDate(simpleDateFormat.format(new Date(ts)));
-            tradeRecord.setHigh(-1.0);
-            tradeRecord.setLow(-1.0);
-            tradeRecord.setOpen(-1.0);
-            tradeRecord.setClose(-1.0);
-            inRecord.add(tradeRecord);
-            ts+=60000*gapMin;
+        if(inRecord.size()>0){
+            try {
+                ts = simpleDateFormat.parse(inRecord.get(inRecord.size()-1).getDate()).getTime()+60000*gapMin;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            while(isLegal(ts)){
+                TradeRecord tradeRecord = new TradeRecord();
+                tradeRecord.setCode(inRecord.get(0).getCode());
+                tradeRecord.setDate(simpleDateFormat.format(new Date(ts)));
+                tradeRecord.setHigh(-1.0);
+                tradeRecord.setLow(-1.0);
+                tradeRecord.setOpen(-1.0);
+                tradeRecord.setClose(-1.0);
+                inRecord.add(tradeRecord);
+                ts+=60000*gapMin;
+            }
         }
     }
 
