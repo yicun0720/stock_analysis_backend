@@ -1,13 +1,14 @@
 package com.example.stock.Biz.BizImpl;
 
 import com.example.stock.Biz.StockInfoService;
+import com.example.stock.Biz.TradeRecordServiceForBl;
 import com.example.stock.DO.News;
 import com.example.stock.DO.Stock;
 import com.example.stock.Mapper.NewsMapper;
 import com.example.stock.Mapper.StockInfoMapper;
 import com.example.stock.VO.NewsVO;
 import com.example.stock.VO.ResponseVO;
-import com.example.stock.VO.StockVO;
+import com.example.stock.VO.StockBaseInfoVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,13 @@ public class StockInfoServiceImpl implements StockInfoService {
     public ResponseVO getStockInfoByCode(String code){
         Stock stock = stockInfoMapper.getStockInfoByCode(code);
         if(stock != null){
-            StockVO stockVO = new StockVO();
-            BeanUtils.copyProperties(stock, stockVO);
-            return ResponseVO.buildSuccess(stockVO);
+            StockBaseInfoVO stockBaseInfoVO = new StockBaseInfoVO();
+            BeanUtils.copyProperties(stock, stockBaseInfoVO);
+            double percentRatio = (stock.getClose() - stock.getOpen()) / stock.getOpen();
+            percentRatio *= 100.0;
+            stockBaseInfoVO.setPercentRatio(percentRatio);
+
+            return ResponseVO.buildSuccess(stockBaseInfoVO);
         }
         return ResponseVO.buildFailure(NO_SUCH_STOCK_CODE_ERR);
     }

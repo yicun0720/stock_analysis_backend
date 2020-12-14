@@ -20,4 +20,14 @@ public class Stock {
     private String area;
     private String list_date;
 
+    /**
+     * 涨跌情况
+     */
+    private double open;
+    private double high;
+    private double low;
+    private double close;
+
+    private String date;
+
 }

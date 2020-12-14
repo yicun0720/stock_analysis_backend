@@ -8,11 +8,21 @@
         <result column="market" jdbcType="VARCHAR" property="market" />
         <result column="area" jdbcType="VARCHAR" property="area" />
         <result column="list_date" jdbcType="VARCHAR" property="list_date" />
+        <result column="open" jdbcType="DOUBLE" property="open" />
+        <result column="high" jdbcType="DOUBLE" property="high" />
+        <result column="low" jdbcType="DOUBLE" property="low" />
+        <result column="close" jdbcType="DOUBLE" property="close" />
+        <result column="date_str" jdbcType="VARCHAR" property="date" />
     </resultMap>
 
     <select id="getStockInfoByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select * from base_information
-        where ts_code = #{code}
+        select b.*, t.date_str, t.open, t.high, t.low, t.close
+        from base_information as b, trade_record_daily as t
+        where b.ts_code = #{code} and b.ts_code = t.ts_code
+        and t.date_str >= all(
+            select date_str from trade_record_daily
+            where ts_code = #{code}
+        )
     </select>
 
 </mapper>

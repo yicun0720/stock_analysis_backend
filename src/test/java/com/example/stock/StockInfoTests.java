@@ -2,8 +2,7 @@ package com.example.stock;
 
 import com.example.stock.Biz.StockInfoService;
 import com.example.stock.VO.NewsVO;
-import com.example.stock.VO.ResponseVO;
-import com.example.stock.VO.StockVO;
+import com.example.stock.VO.StockBaseInfoVO;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class StockInfoTests {
 
     @Test
     void testInfo(){
-        StockVO stockVO = (StockVO) stockInfoService.getStockInfoByCode("000046").getContent();
+        StockBaseInfoVO stockVO = (StockBaseInfoVO) stockInfoService.getStockInfoByCode("000046").getContent();
         System.out.println(stockVO);
         assertEquals("19940912", stockVO.getList_date(), "err" + stockVO.getList_date());
     }

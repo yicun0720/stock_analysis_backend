@@ -8,7 +8,7 @@ import lombok.Data;
  * @ Date 2020/12/13 14:52
  */
 @Data
-public class StockVO {
+public class StockBaseInfoVO {
     /**
      * 股票代码 key
      */
@@ -19,4 +19,16 @@ public class StockVO {
     private String market;
     private String area;
     private String list_date;
+
+    /**
+     * 涨跌情况
+     */
+    private double open;
+    private double high;
+    private double low;
+    private double close;
+
+    private double percentRatio;
+
+    private String date;
 }
