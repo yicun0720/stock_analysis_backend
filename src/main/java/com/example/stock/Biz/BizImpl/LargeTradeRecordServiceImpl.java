@@ -15,7 +15,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -83,8 +86,83 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
         if(tr_list_lb == null || tr_list_origin == null){
             return ResponseVO.buildFailure("读取K线对比数据失败");
         }
-        //TODO 对齐
+        //washDate方法，包含一个时间粒度的参数gapMin，将tr_list_lb的date都向下取到最近的正确时间点，并补全中间缺少的时间
+        washDate(tr_list_lb, 5);
 
         return null;
     }
+
+    private void washDate(List<TradeRecord> inRecord, int gapMin) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        long ts = 0;
+        for(TradeRecord tradeRecord:inRecord){
+            try {
+                date = simpleDateFormat.parse(tradeRecord.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            ts = date.getTime();
+            ts = (ts / (60000*gapMin)) * (60000*gapMin);
+            date = new Date(ts);
+            tradeRecord.setDate(simpleDateFormat.format(date));
+        }
+        for(int i = 0;i<inRecord.size()-1;i++){
+            long ts1 = 0;
+            long ts2 = 0;
+            try {
+                ts1 = simpleDateFormat.parse(inRecord.get(i).getDate()).getTime();
+                ts2 = simpleDateFormat.parse(inRecord.get(i+1).getDate()).getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(ts2-ts1 != 60000*gapMin){
+                int insertIndex = i+1;
+                long tsAdd = ts1+60000*gapMin;
+                while(true){
+                    if(tsAdd<ts2 && isLegal(tsAdd)){
+                        TradeRecord tradeRecord = new TradeRecord();
+                        tradeRecord.setCode(inRecord.get(0).getCode());
+                        tradeRecord.setDate(simpleDateFormat.format(new Date(tsAdd)));
+                        tradeRecord.setHigh(-1.0);
+                        tradeRecord.setLow(-1.0);
+                        tradeRecord.setOpen(-1.0);
+                        tradeRecord.setClose(-1.0);
+                        inRecord.add(insertIndex,tradeRecord);
+                    }else{
+                        i = insertIndex+1;
+                        break;
+                    }
+                    insertIndex++;
+                    tsAdd+=60000*gapMin;
+                }
+            }
+        }
+        try {
+            ts = simpleDateFormat.parse(inRecord.get(inRecord.size()-1).getDate()).getTime()+60000*gapMin;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        while(isLegal(ts)){
+            TradeRecord tradeRecord = new TradeRecord();
+            tradeRecord.setCode(inRecord.get(0).getCode());
+            tradeRecord.setDate(simpleDateFormat.format(new Date(ts)));
+            tradeRecord.setHigh(-1.0);
+            tradeRecord.setLow(-1.0);
+            tradeRecord.setOpen(-1.0);
+            tradeRecord.setClose(-1.0);
+            inRecord.add(tradeRecord);
+            ts+=60000*gapMin;
+        }
+    }
+
+    private boolean isLegal(long time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time_str = simpleDateFormat.format(new Date(time)).substring(11);
+        return (time_str.compareTo("09:30:00")>=0&&time_str.compareTo("11:30:00")<=0)
+                ||(time_str.compareTo("13:00:00")>=0&&time_str.compareTo("15:00:00")<=0);
+
+    }
+
+
 }
