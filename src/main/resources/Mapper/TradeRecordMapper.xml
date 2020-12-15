@@ -45,4 +45,10 @@
         where ts_code = #{code} and date_str >= #{fromDate} and date_str &lt;= #{toDate}
         order by date_str
     </select>
+
+    <select id="getAllStockDaily" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select ts_code, date_str, open, high, low, close
+        from trade_record_daily
+        where date_str = #{date}
+    </select>
 </mapper>

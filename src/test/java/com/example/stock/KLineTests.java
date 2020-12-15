@@ -1,6 +1,7 @@
 package com.example.stock;
 
 import com.example.stock.Biz.TradeRecordService;
+import com.example.stock.DO.RatioVO;
 import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm;
 import com.example.stock.VO.TradeRecordVO;
@@ -52,5 +53,16 @@ public class KLineTests {
             return result;
         }
         return null;
+    }
+
+    @Test
+    void testAllStockDaily(){
+        Object res = tradeRecordService.getAllStockDaily("2020-01-03").getContent();
+        List<RatioVO> ratioVOArrayList = castList(res, RatioVO.class);
+        System.out.println(ratioVOArrayList.size());
+        for(RatioVO ratioVO: ratioVOArrayList){
+            System.out.println(ratioVO);
+        }
+
     }
 }

@@ -16,4 +16,6 @@ public interface TradeRecordService {
      * @return
      */
     ResponseVO getKLineData(KLineRequestForm kLineRequestForm);
+
+    ResponseVO getAllStockDaily(String date);
 }

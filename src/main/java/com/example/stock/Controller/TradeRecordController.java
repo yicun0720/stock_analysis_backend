@@ -23,4 +23,9 @@ public class TradeRecordController {
         return tradeRecordService.getKLineData(kLineRequestForm);
     }
 
+    @PostMapping("/allStockDaily")
+    public ResponseVO getAllStockDaily(@RequestParam String date){
+        return tradeRecordService.getAllStockDaily(date);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.stock.Biz.BizImpl;
 import com.example.stock.Biz.TradeRecordService;
 import com.example.stock.Biz.TradeRecordServiceForBl;
 import com.example.stock.DO.KLineRequest;
+import com.example.stock.DO.RatioVO;
 import com.example.stock.DO.TradeRecord;
 import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm;
@@ -76,5 +77,19 @@ public class TradeRecordServiceImpl implements TradeRecordService, TradeRecordSe
     @Override
     public List<TradeRecord> getKLineDataForContrast(KLineRequestForm kLineRequestForm){
         return kLineDispatcher(kLineRequestForm);
+    }
+
+    @Override
+    public ResponseVO getAllStockDaily(String date){
+        List<TradeRecord> tradeRecordList;
+        tradeRecordList = tradeRecordMapper.getAllStockDaily(date);
+        List<RatioVO> ratioList = new ArrayList<>();
+        for(TradeRecord tradeRecord: tradeRecordList){
+            double ratio = (tradeRecord.getClose()-tradeRecord.getOpen())/tradeRecord.getOpen()*100;
+            RatioVO ratioVO = new RatioVO(tradeRecord.getCode(),tradeRecord.getClose(),ratio);
+            ratioList.add(ratioVO);
+        }
+
+        return ResponseVO.buildSuccess(ratioList);
     }
 }

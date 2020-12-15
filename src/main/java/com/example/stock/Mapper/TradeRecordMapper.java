@@ -22,4 +22,6 @@ public interface TradeRecordMapper {
     List<TradeRecord> getTradeRecord_60min(KLineRequest kLineRequest);
 
     List<TradeRecord> getTradeRecord_1d(KLineRequest kLineRequest);
+
+    List<TradeRecord> getAllStockDaily(String date);
 }
