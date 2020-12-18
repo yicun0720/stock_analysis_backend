@@ -23,7 +23,7 @@ public class KLineTests_lb {
     private LargeTradeRecordService largeTradeRecordService;
 
     @Test
-    void testKLine_lb(){
+    public void testKLine_lb(){
         KLineRequestForm_lb kLineRequestForm_lb = new KLineRequestForm_lb();
         kLineRequestForm_lb.setCode("000046.SZ");
         kLineRequestForm_lb.setFromDate("2020-12-07 00:00:00");
@@ -54,7 +54,7 @@ public class KLineTests_lb {
     }
 
     @Test
-    void testContrast(){
+    public void testContrast(){
         KLineRequestForm_lb kLineRequestForm_lb = new KLineRequestForm_lb();
         kLineRequestForm_lb.setCode("000046.SZ");
         kLineRequestForm_lb.setFromDate("2020-12-03 00:00:00");

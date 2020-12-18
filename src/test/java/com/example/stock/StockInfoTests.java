@@ -24,13 +24,13 @@ public class StockInfoTests {
     private StockInfoService stockInfoService;
 
     @Test
-    void testInfo(){
+    public void testInfo(){
         StockBaseInfoVO stockVO = (StockBaseInfoVO) stockInfoService.getStockInfoByCode("000046").getContent();
         System.out.println(stockVO);
         assertEquals("19940912", stockVO.getList_date(), "err" + stockVO.getList_date());
     }
     @Test
-    void testNews(){
+    public void testNews(){
         Object res = stockInfoService.getStockNews("2020-12-07 13:07:20", "2020-12-07 13:19:00").getContent();
         List<NewsVO> newsVOList = castList(res, NewsVO.class);
         assertEquals(5, newsVOList.size());

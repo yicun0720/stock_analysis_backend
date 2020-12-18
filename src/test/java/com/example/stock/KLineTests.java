@@ -25,7 +25,7 @@ public class KLineTests {
     private TradeRecordService tradeRecordService;
 
     @Test
-    void testKLine(){
+    public void testKLine(){
         KLineRequestForm kLineRequestForm = new KLineRequestForm();
         kLineRequestForm.setCode("000046");
         kLineRequestForm.setFromDate("2020-01-02");
@@ -57,7 +57,7 @@ public class KLineTests {
     }
 
     @Test
-    void testAllStockDaily(){
+    public void testAllStockDaily(){
         Object res = tradeRecordService.getAllStockDaily("2020-01-03").getContent();
         List<RatioVO> ratioVOArrayList = castList(res, RatioVO.class);
         System.out.println(ratioVOArrayList.size());
