@@ -26,7 +26,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 //        		"/login", "/index", "/signUp", "/register", "/error",
 //                "/**/*.css", "/**/*.js", "/**/*.png", "/**/*.gif", "/**/*.jpg", "/**/*.jpeg", "/font/**");
         //其他界面都拦截，进入登陆角色判断逻辑
-        interceptorRegistration.addPathPatterns("/**");
+        interceptorRegistration.excludePathPatterns("/**");
     }
 
 

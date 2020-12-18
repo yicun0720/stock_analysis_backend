@@ -3,13 +3,14 @@ package com.example.stock;
 import com.example.stock.Biz.StockInfoService;
 import com.example.stock.VO.NewsVO;
 import com.example.stock.VO.StockBaseInfoVO;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @ Description
@@ -32,7 +33,7 @@ public class StockInfoTests {
     void testNews(){
         Object res = stockInfoService.getStockNews("2020-12-07 13:07:20", "2020-12-07 13:19:00").getContent();
         List<NewsVO> newsVOList = castList(res, NewsVO.class);
-        assertEquals(5, newsVOList.size(), "err num");
+        assertEquals(5, newsVOList.size());
         for(NewsVO newsVO: newsVOList){
             System.out.println(newsVO.getContent());
         }

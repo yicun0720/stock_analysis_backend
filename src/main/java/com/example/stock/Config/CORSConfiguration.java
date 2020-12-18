@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @ Date 2020/12/17 21:22
  */
 @Configuration
-public class CORSConfig extends WebMvcConfigurerAdapter {
+public class CORSConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("http://localhost:80");

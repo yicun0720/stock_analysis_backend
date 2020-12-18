@@ -4,7 +4,7 @@ import com.example.stock.Biz.LargeTradeRecordService;
 import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm_lb;
 import com.example.stock.VO.TradeRecordVO;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
