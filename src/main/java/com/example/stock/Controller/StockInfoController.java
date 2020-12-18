@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @ Author YangYicun
  * @ Date 2020/12/13 14:07
  */
-@CrossOrigin
 @RestController
 public class StockInfoController {
     @Autowired

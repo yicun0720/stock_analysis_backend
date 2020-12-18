@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
  * @ Author CaoYang
  * @ Date 2020/12/13
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/trade")
 public class TradeRecordController {
