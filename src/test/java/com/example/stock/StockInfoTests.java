@@ -4,8 +4,10 @@ import com.example.stock.Biz.StockInfoService;
 import com.example.stock.VO.NewsVO;
 import com.example.stock.VO.StockBaseInfoVO;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import static org.junit.Assert.assertEquals;
  * @ Author YangYicun
  * @ Date 2020/12/13 15:17
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = StockApplication.class)
 public class StockInfoTests {
 
