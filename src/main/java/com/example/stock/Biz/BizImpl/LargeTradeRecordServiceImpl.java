@@ -11,6 +11,7 @@ import com.example.stock.Form.KLineRequestForm_lb;
 import com.example.stock.Mapper.LargeTradeRecordMapper;
 import com.example.stock.VO.ResponseVO;
 import com.example.stock.VO.TradeRecordVO;
+import com.example.stock.VO.TwoRecordList;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,8 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
         for(TradeRecord tradeRecord:tr_list_lb){
             System.out.println(tradeRecord.getDate());
         }
-        return null;
+        TwoRecordList twoRecordList = new TwoRecordList(tr_list_origin,tr_list_lb);
+        return ResponseVO.buildSuccess(twoRecordList);
     }
 
     private void washDate(List<TradeRecord> inRecord, int gapMin) {

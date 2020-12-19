@@ -1,9 +1,11 @@
 package com.example.stock;
 
 import com.example.stock.Biz.LargeTradeRecordService;
+import com.example.stock.DO.TradeRecord;
 import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm_lb;
 import com.example.stock.VO.TradeRecordVO;
+import com.example.stock.VO.TwoRecordList;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +64,11 @@ public class KLineTests_lb {
         kLineRequestForm_lb.setKLine(KLine.K_5MIN);
         kLineRequestForm_lb.setVolumnThreshold(1000);
 
-        largeTradeRecordService.getContrastKLineData(kLineRequestForm_lb);
+        Object res = largeTradeRecordService.getContrastKLineData(kLineRequestForm_lb).getContent();
+        TwoRecordList twoRecordList = (TwoRecordList)res;
+        for(TradeRecord tradeRecord:twoRecordList.getTr_list_lb()){
+            System.out.println(tradeRecord.getDate());
+        }
     }
 }
 
