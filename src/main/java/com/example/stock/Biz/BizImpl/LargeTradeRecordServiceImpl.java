@@ -114,10 +114,23 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
         }
 
         //washDate方法，包含一个时间粒度的参数gapMin，将tr_list_lb的date都向下取到最近的正确时间点，并补全中间缺少的时间
-        washDate(tr_list_lb, 5);
-        System.out.println(tr_list_lb.size());
-        for(TradeRecord tradeRecord:tr_list_lb){
-            System.out.println(tradeRecord.getDate());
+        int gapMin = 0;
+        switch (kLineRequestForm_lb.getKLine()){
+            case K_5MIN:
+                washDate(tr_list_lb, 5);
+                break;
+            case K_15MIN:
+                washDate(tr_list_lb, 15);
+                break;
+            case K_30MIN:
+                washDate(tr_list_lb, 30);
+                break;
+            case K_60MIN:
+                washDate(tr_list_lb, 60);
+                break;
+            case K_1D:
+                washDate(tr_list_lb, 24*60);
+                break;
         }
         TwoRecordList twoRecordList = new TwoRecordList(tr_list_origin,tr_list_lb);
         return ResponseVO.buildSuccess(twoRecordList);
@@ -134,7 +147,8 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
                 e.printStackTrace();
             }
             ts = date.getTime();
-            ts = (ts / (60000*gapMin)) * (60000*gapMin);
+            int gapTime = Math.min(30*60000,60000*gapMin);
+            ts = (ts / (gapTime)) * (gapTime);
             date = new Date(ts);
             tradeRecord.setDate(simpleDateFormat.format(date));
         }
