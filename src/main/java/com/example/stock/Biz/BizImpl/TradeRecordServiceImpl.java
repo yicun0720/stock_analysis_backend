@@ -8,6 +8,8 @@ import com.example.stock.DO.TradeRecord;
 import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm;
 import com.example.stock.Mapper.TradeRecordMapper;
+import com.example.stock.Utils.DateUtil;
+import com.example.stock.Utils.UtilDO.DateTimeRange;
 import com.example.stock.VO.ResponseVO;
 import com.example.stock.VO.TradeRecordVO;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +35,8 @@ public class TradeRecordServiceImpl implements TradeRecordService, TradeRecordSe
 
     @Override
     public ResponseVO getKLineData(KLineRequestForm kLineRequestForm){
+        dateTimeToWorkday(kLineRequestForm);
+
         List<TradeRecord> tradeRecordList = kLineDispatcher(kLineRequestForm);
         if(tradeRecordList == null){
             return ResponseVO.buildFailure("未知K线类型");
@@ -45,6 +49,19 @@ public class TradeRecordServiceImpl implements TradeRecordService, TradeRecordSe
             tradeRecordVOList.add(tradeRecordVO);
         }
         return ResponseVO.buildSuccess(tradeRecordVOList);
+    }
+
+    private void dateTimeToWorkday(KLineRequestForm form){
+        //日k不处理
+        if(form.getKLine() == KLine.K_1D){
+            return;
+        }
+        DateTimeRange dateTimeRange =
+                DateUtil.parseDateToNearestWorkday(form.getFromDate(), form.getToDate());
+        if(dateTimeRange != null) {
+            form.setFromDate(dateTimeRange.getFromDateTime());
+            form.setToDate(dateTimeRange.getToDateTime());
+        }
     }
 
     private List<TradeRecord> kLineDispatcher(KLineRequestForm kLineRequestForm){

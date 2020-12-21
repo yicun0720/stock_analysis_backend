@@ -9,6 +9,8 @@ import com.example.stock.Form.KLine;
 import com.example.stock.Form.KLineRequestForm;
 import com.example.stock.Form.KLineRequestForm_lb;
 import com.example.stock.Mapper.LargeTradeRecordMapper;
+import com.example.stock.Utils.DateUtil;
+import com.example.stock.Utils.UtilDO.DateTimeRange;
 import com.example.stock.VO.ResponseVO;
 import com.example.stock.VO.TradeRecordVO;
 import com.example.stock.VO.TwoRecordList;
@@ -38,6 +40,8 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
 
     @Override
     public ResponseVO getKLineData_lb(KLineRequestForm_lb kLineRequestForm_lb){
+        dateTimeToWorkday(kLineRequestForm_lb);
+
         List<TradeRecord> tradeRecordList = kLineDispatcher(kLineRequestForm_lb);
         if(tradeRecordList == null){
             return ResponseVO.buildFailure("未知K线类型");
@@ -50,6 +54,19 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
             tradeRecordVOList.add(tradeRecordVO);
         }
         return ResponseVO.buildSuccess(tradeRecordVOList);
+    }
+
+    private void dateTimeToWorkday(KLineRequestForm_lb form_lb){
+        //日k不处理
+        if(form_lb.getKLine() == KLine.K_1D){
+            return;
+        }
+        DateTimeRange dateTimeRange =
+                DateUtil.parseDateToNearestWorkday(form_lb.getFromDate(), form_lb.getToDate());
+        if(dateTimeRange != null) {
+            form_lb.setFromDate(dateTimeRange.getFromDateTime());
+            form_lb.setToDate(dateTimeRange.getToDateTime());
+        }
     }
 
     private List<TradeRecord> kLineDispatcher(KLineRequestForm_lb kLineRequestForm_lb){
@@ -81,12 +98,21 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
 
     @Override
     public ResponseVO getContrastKLineData(KLineRequestForm_lb kLineRequestForm_lb){
+        dateTimeToWorkday(kLineRequestForm_lb);
+
         List<TradeRecord> tr_list_lb = kLineDispatcher(kLineRequestForm_lb);
         List<TradeRecord> tr_list_origin =
                 tradeRecordServiceForBl.getKLineDataForContrast(new KLineRequestForm(kLineRequestForm_lb));
-        if(tr_list_lb == null || tr_list_origin == null){
-            return ResponseVO.buildFailure("读取K线对比数据失败");
+        if(tr_list_lb == null || tr_list_origin == null
+                || tr_list_lb.size() == 0 || tr_list_origin.size() == 0){
+            return ResponseVO.buildFailure("K线数据缺失错误，读取失败");
         }
+        String date_origin = DateUtil.fetchDateFromDateTime(tr_list_origin.get(0).getDate());
+        String date_lb = DateUtil.fetchDateFromDateTime(tr_list_lb.get(0).getDate());
+        if(!date_origin.equals(date_lb)){
+            return ResponseVO.buildFailure("K线数据缺失错误，读取失败");
+        }
+
         //washDate方法，包含一个时间粒度的参数gapMin，将tr_list_lb的date都向下取到最近的正确时间点，并补全中间缺少的时间
         washDate(tr_list_lb, 5);
         System.out.println(tr_list_lb.size());

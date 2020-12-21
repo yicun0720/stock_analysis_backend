@@ -31,8 +31,8 @@ public class KLineTests_lb {
     public void testKLine_lb(){
         KLineRequestForm_lb kLineRequestForm_lb = new KLineRequestForm_lb();
         kLineRequestForm_lb.setCode("000046");
-        kLineRequestForm_lb.setFromDate("2020-12-03 00:00:00");
-        kLineRequestForm_lb.setToDate("2020-12-04 00:00:00");
+        kLineRequestForm_lb.setFromDate("2020-12-16 18:00:00");
+        kLineRequestForm_lb.setToDate("2020-12-18 18:00:00");
         kLineRequestForm_lb.setKLine(KLine.K_5MIN);
         kLineRequestForm_lb.setVolumnThreshold(1000);
 
@@ -40,9 +40,9 @@ public class KLineTests_lb {
         List<TradeRecordVO> tradeRecordVOArrayList = castList(res, TradeRecordVO.class);
         System.out.println(tradeRecordVOArrayList.size());
         System.out.println(tradeRecordVOArrayList.get(0));
-//        for(TradeRecordVO tradeRecordVO: tradeRecordVOArrayList){
-//
-//        }
+        for(TradeRecordVO tradeRecordVO: tradeRecordVOArrayList){
+            System.out.println(tradeRecordVO.getDate());
+        }
     }
 
     private static <T> List<T> castList(Object obj, Class<T> clazz){
