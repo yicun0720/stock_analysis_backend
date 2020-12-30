@@ -14,7 +14,26 @@ import java.util.Date;
  */
 public class DateUtil {
     /**
-     * yyyy-MM-dd HH-mm-ss格式的日期
+     * yyyy-MM-dd 格式的日期，处理单个时间至最近的一个工作日
+     */
+    public static String parseSingleDateToNearestWorkday(String dateTime){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = simpleDateFormat.parse(dateTime);
+            calendar.setTime(date);
+        }catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
+        while(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+                || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+        }
+        return simpleDateFormat.format(calendar.getTime());
+    }
+    /**
+     * yyyy-MM-dd HH-mm-ss格式的日期，处理时间段，toDateTime至最近的一个工作日
      */
     public static DateTimeRange parseDateToNearestWorkday(String fromDateTime, String toDateTime){
         Calendar calendar = Calendar.getInstance();

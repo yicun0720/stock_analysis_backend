@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stock.Mapper.DailyCostMapper">
+    <resultMap id="BaseResultMap" type="com.example.stock.DO.TradeVolumeStat">
+        <result column="price" jdbcType="DOUBLE" property="price" />
+        <result column="volume" jdbcType="BIGINT" property="volume" />
+    </resultMap>
+
+    <select id="getDailyCostByCodeAndDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select price, sum(volume) as volume from trade_record_lb_origin
+        where ts_code = #{code} and trade_date = REPLACE(#{tradeDate}, "-", "")
+        group by price
+        order by price asc
+    </select>
+</mapper>
