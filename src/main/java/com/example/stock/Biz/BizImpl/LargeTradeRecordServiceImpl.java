@@ -105,12 +105,14 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
                 tradeRecordServiceForBl.getKLineDataForContrast(new KLineRequestForm(kLineRequestForm_lb));
         if(tr_list_lb == null || tr_list_origin == null
                 || tr_list_lb.size() == 0 || tr_list_origin.size() == 0){
-            return ResponseVO.buildFailure("K线数据缺失错误，读取失败");
+            return ResponseVO.buildFailure("K线数据缺失错误，读取失败1");
         }
         String date_origin = DateUtil.fetchDateFromDateTime(tr_list_origin.get(0).getDate());
         String date_lb = DateUtil.fetchDateFromDateTime(tr_list_lb.get(0).getDate());
         if(!date_origin.equals(date_lb)){
-            return ResponseVO.buildFailure("K线数据缺失错误，读取失败");
+            System.out.println(date_lb);
+            System.out.println(date_origin);
+            return ResponseVO.buildFailure("K线数据缺失错误，读取失败2");
         }
 
         //washDate方法，包含一个时间粒度的参数gapMin，将tr_list_lb的date都向下取到最近的正确时间点，并补全中间缺少的时间
@@ -129,7 +131,6 @@ public class LargeTradeRecordServiceImpl implements LargeTradeRecordService {
                 washDate(tr_list_lb, 60);
                 break;
             case K_1D:
-                washDate(tr_list_lb, 24*60);
                 break;
         }
         TwoRecordList twoRecordList = new TwoRecordList(tr_list_origin,tr_list_lb);

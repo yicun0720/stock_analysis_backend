@@ -62,16 +62,16 @@ public class KLineTests_lb {
     public void testContrast(){
         KLineRequestForm_lb kLineRequestForm_lb = new KLineRequestForm_lb();
         kLineRequestForm_lb.setCode("000046");
-        kLineRequestForm_lb.setFromDate("2020-12-14 00:00:00");
-        kLineRequestForm_lb.setToDate("2020-12-15 00:00:00");
+        kLineRequestForm_lb.setFromDate("2020-12-20 00:00:00");
+        kLineRequestForm_lb.setToDate("2021-01-07 20:00:00");
         kLineRequestForm_lb.setKLine(KLine.K_1D);
         kLineRequestForm_lb.setVolumnThreshold(1000);
 
         Object res = largeTradeRecordService.getContrastKLineData(kLineRequestForm_lb).getContent();
         TwoRecordList twoRecordList = (TwoRecordList)res;
-        System.out.println(twoRecordList.getTr_list_lb().size());
-        for(TradeRecord tradeRecord:twoRecordList.getTr_list_lb()){
-            System.out.println(tradeRecord.getDate());
+        System.out.println(twoRecordList.getTr_list_lb().size()+" "+twoRecordList.getTr_list_origin().size());
+        for(int i = 0;i<twoRecordList.getTr_list_lb().size();i++){
+            System.out.println(twoRecordList.getTr_list_lb().get(i).getDate()+" "+twoRecordList.getTr_list_origin().get(i).getDate());
         }
     }
 }
